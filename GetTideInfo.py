@@ -25,13 +25,13 @@ tide_info = [item.split(' ft.')[0] for item in tide_info]
 
 #Prepare tweet message
 def prepare_twitter_message():
-	today_str = "Tide Information for {:%b %d, %Y}: \n".format(date.today())
-	low_tide_am = "Low: {}  {} ft\n".format(tide_info[0], tide_info[2])
-	high_tide_am = "High: {}  {} ft\n".format(tide_info[3], tide_info[5])
-	low_tide_pm = "Low: {}  {} ft\n".format(tide_info[6], tide_info[8])
-	high_tide_pm = "High: {}  {} ft".format(tide_info[9], tide_info[11])
-	
-	return today_str + low_tide_am + high_tide_am + low_tide_pm + high_tide_pm
+	message_str = "Tide Information for {:%b %d, %Y}: \n".format(date.today())
+	while len(tide_info)>0:
+		tide_time = tide_info.pop(0)
+		tide_type = tide_info.pop(0).title()
+		tide_ht = tide_info.pop(0)
+		message_str += "{}: {} {} ft\n".format(tide_type, tide_time, tide_ht)
+	return message_str
 
 #Configure Tweet and send.
 api = Twython(apiKey,apiSecret,accessToken,accessTokenSecret)
